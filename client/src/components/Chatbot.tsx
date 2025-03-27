@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { sendChatMessage } from '@/lib/chatbot';
+import { MessageSquare, Send, XCircle, Bot } from 'lucide-react';
 
 const Chatbot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -90,73 +91,85 @@ const Chatbot: React.FC = () => {
 
   return (
     <div className="fixed bottom-5 right-5 z-40" id="chatbot-container">
-      {/* Chatbot Icon */}
+      {/* Chatbot Icon - New modern design */}
       <div 
         id="chatbot-icon" 
-        className="w-14 h-14 bg-[#515151] rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:scale-110 transition-transform duration-300 ease-in-out"
+        className="w-14 h-14 bg-gradient-to-r from-[#515151] to-[#2ecc71] rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 ease-in-out"
         onClick={toggleChatWindow}
+        aria-label="Open chatbot"
       >
-        <i className="fas fa-comment-dots text-white text-2xl"></i>
+        <Bot className="w-7 h-7 text-white" />
       </div>
       
       {/* Chatbot Window */}
       <div 
         ref={chatWindowRef}
-        className={`absolute bottom-20 right-0 w-80 sm:w-96 bg-white rounded-lg shadow-xl overflow-hidden ${isOpen ? 'block' : 'hidden'}`}
+        className={`absolute bottom-20 right-0 w-80 sm:w-96 bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden transition-all duration-300 transform ${
+          isOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'
+        }`}
       >
-        {/* Chatbot Header */}
-        <div className="bg-[#515151] text-white px-4 py-3 flex justify-between items-center">
-          <span className="font-medium">Ask about my Profile</span>
+        {/* Chatbot Header - Enhanced with gradient */}
+        <div className="bg-gradient-to-r from-[#515151] to-[#444444] text-white px-4 py-3 flex justify-between items-center">
+          <div className="flex items-center space-x-2">
+            <MessageSquare className="w-5 h-5" />
+            <span className="font-medium">Resume Assistant</span>
+          </div>
           <button 
             onClick={() => setIsOpen(false)}
-            className="text-white hover:text-gray-300 focus:outline-none"
+            className="text-white hover:text-gray-300 focus:outline-none transition-colors duration-200"
+            aria-label="Close chatbot"
           >
-            <i className="fas fa-times"></i>
+            <XCircle className="w-5 h-5" />
           </button>
         </div>
         
         {/* Chatbot Messages */}
-        <div className="h-80 p-4 overflow-y-auto bg-gray-50 custom-scrollbar" id="chatbot-messages">
+        <div className="h-80 p-4 overflow-y-auto bg-gray-50 dark:bg-gray-900 custom-scrollbar" id="chatbot-messages">
           {messages.map((message, index) => (
-            <div key={index} className={`message ${message.sender}-message`}>
+            <div 
+              key={index} 
+              className={`message ${message.sender}-message ${
+                message.sender === 'user' ? 'dark:bg-[#2ecc71] dark:text-white' : 'dark:bg-gray-700 dark:text-gray-100'
+              }`}
+            >
               {message.content.split('\n').map((line, i) => (
-                <p key={i} className={message.sender === 'bot' && i > 0 ? "text-xs text-gray-500 mt-1" : ""}>
+                <p key={i} className={message.sender === 'bot' && i > 0 ? "text-xs text-gray-500 dark:text-gray-400 mt-1" : ""}>
                   {line}
                 </p>
               ))}
             </div>
           ))}
           {isLoading && (
-            <div className="message bot-message">
+            <div className="message bot-message dark:bg-gray-700">
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                <div className="w-2 h-2 bg-gray-400 dark:bg-gray-300 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                <div className="w-2 h-2 bg-gray-400 dark:bg-gray-300 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                <div className="w-2 h-2 bg-gray-400 dark:bg-gray-300 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
               </div>
             </div>
           )}
           <div ref={messagesEndRef} />
         </div>
         
-        {/* Chatbot Input */}
-        <div className="border-t border-gray-200 p-3 flex">
+        {/* Chatbot Input - Enhanced with better styling */}
+        <div className="border-t border-gray-200 dark:border-gray-700 p-3 flex">
           <input 
             type="text" 
             id="user-input"
             ref={userInputRef}
-            placeholder="Type your message..." 
+            placeholder="Ask about skills, projects, experience..." 
             value={userInput}
             onChange={handleUserInput}
             onKeyPress={handleKeyPress}
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-[#515151] focus:border-transparent"
+            className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-l-lg focus:outline-none focus:ring-2 focus:ring-[#2ecc71] focus:border-transparent"
           />
           <button 
             id="send-btn"
             onClick={handleSendMessage}
             disabled={isLoading || !userInput.trim()}
-            className="bg-[#515151] text-white px-4 py-2 rounded-r-lg hover:bg-[#2ecc71] transition-colors duration-300 disabled:opacity-50 disabled:hover:bg-[#515151]"
+            className="bg-gradient-to-r from-[#515151] to-[#2ecc71] text-white px-4 py-2 rounded-r-lg hover:from-[#2ecc71] hover:to-[#27ae60] transition-all duration-300 disabled:opacity-50 disabled:hover:from-[#515151]"
           >
-            <i className="fas fa-paper-plane"></i>
+            <Send className="w-5 h-5" />
           </button>
         </div>
       </div>

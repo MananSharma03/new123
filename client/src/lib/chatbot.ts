@@ -1,16 +1,16 @@
 import { apiRequest } from './queryClient';
 
-// Select which LLM provider to use
-const LLM_PROVIDER = 'groq'; // or 'together'
+// Use Groq API for the chatbot
+const LLM_PROVIDER = 'groq';
 
-// Get API key from environment variables with fallback
-const getApiKey = () => {
-  if (LLM_PROVIDER === 'groq') {
-    return process.env.GROQ_API_KEY || process.env.VITE_GROQ_API_KEY || '';
-  } else {
-    return process.env.TOGETHER_API_KEY || process.env.VITE_TOGETHER_API_KEY || '';
-  }
-};
+// Define the response type from Groq API
+interface GroqApiResponse {
+  choices: Array<{
+    message: {
+      content: string;
+    };
+  }>;
+}
 
 // System prompt to instruct the LLM about its purpose
 const getSystemPrompt = () => {
@@ -28,75 +28,73 @@ Keep responses concise (under 150 words), professional, and helpful.
 If asked something outside of your knowledge scope, politely explain you can only provide information about Manan's professional background.`;
 };
 
-// Function to send message to LLM API and get response
+// Function to send message to the backend which will handle the Groq API call
 export async function sendChatMessage(userMessage: string): Promise<string> {
   try {
-    let apiUrl, requestBody;
-    
-    if (LLM_PROVIDER === 'groq') {
-      apiUrl = 'https://api.groq.com/openai/v1/chat/completions';
-      requestBody = {
-        model: 'llama2-70b-4096',
-        messages: [
-          {
-            role: 'system',
-            content: getSystemPrompt()
-          },
-          {
-            role: 'user',
-            content: userMessage
-          }
-        ],
-        temperature: 0.7,
-        max_tokens: 150
-      };
-    } else {
-      // together.ai
-      apiUrl = 'https://api.together.xyz/v1/chat/completions';
-      requestBody = {
-        model: 'togethercomputer/llama-2-70b-chat',
-        messages: [
-          {
-            role: 'system',
-            content: getSystemPrompt()
-          },
-          {
-            role: 'user',
-            content: userMessage
-          }
-        ],
-        temperature: 0.7,
-        max_tokens: 150
-      };
-    }
-
-    // Get API key
-    const apiKey = getApiKey();
-    
-    // If no API key is available, use a fallback response pattern
-    if (!apiKey) {
-      return getFallbackResponse(userMessage);
-    }
-
-    // Make request to the LLM API
-    const response = await fetch(apiUrl, {
+    // Try to send the message to our backend API
+    const response = await fetch('/api/chat', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(requestBody)
+      body: JSON.stringify({ message: userMessage })
     });
 
     if (!response.ok) {
-      throw new Error(`API request failed with status ${response.status}`);
+      throw new Error(`Backend API request failed with status ${response.status}`);
     }
 
     const data = await response.json();
-    return data.choices[0].message.content;
+    return data.response;
   } catch (error) {
-    console.error('Error sending chat message:', error);
-    return getFallbackResponse(userMessage);
+    console.error('Error sending chat message to backend:', error);
+    
+    // Fallback to direct Groq API call if backend call fails
+    try {
+      const apiUrl = 'https://api.groq.com/openai/v1/chat/completions';
+      const requestBody = {
+        model: 'llama3-8b-8192',  // Using Llama 3 model
+        messages: [
+          {
+            role: 'system',
+            content: getSystemPrompt()
+          },
+          {
+            role: 'user',
+            content: userMessage
+          }
+        ],
+        temperature: 0.7,
+        max_tokens: 200
+      };
+      
+      // Try to get the GROQ API key from environment variables
+      const apiKey = import.meta.env.VITE_GROQ_API_KEY || '';
+      
+      if (!apiKey) {
+        console.warn('No Groq API key found in environment variables');
+        return getFallbackResponse(userMessage);
+      }
+      
+      const groqResponse = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+      });
+      
+      if (!groqResponse.ok) {
+        throw new Error(`Groq API request failed with status ${groqResponse.status}`);
+      }
+      
+      const groqData = await groqResponse.json() as GroqApiResponse;
+      return groqData.choices[0].message.content;
+    } catch (groqError) {
+      console.error('Error with direct Groq API call:', groqError);
+      return getFallbackResponse(userMessage);
+    }
   }
 }
 
