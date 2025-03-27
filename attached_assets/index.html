@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Professional Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">Manan Sharma</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-flex-container">
+                <div class="profile-image-container">
+                    <img src="IMG_8864.jpg" alt="Profile Picture" class="profile-pic">
+                </div>
+                <div class="hero-text-container">
+                    <h1 style="color: black;">Hi, I'm Manan Sharma</h1>
+                    <p class="subtitle">Data Analysis & DevOps Professional</p>
+                    <p class="intro-text">
+                        I'm a passionate data analyst and DevOps professional with expertise in transforming complex
+                        data
+                        into actionable insights. With a strong background in statistical analysis, cloud
+                        infrastructure,
+                        and software development, I help organizations make data-driven decisions and optimize their
+                        technological processes.
+                    </p>
+                    <div class="social-links">
+                        <a href="https://linkedin.com/in/yourprofile" target="_blank"><i
+                                class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/yourprofile" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="mailto:youremail@example.com"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- ---------- -->
+    <section id="skills" class="skills">
+        <h2>Professional Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Data Analysis</h3>
+                <p>Advanced analytics, statistical modeling, data visualization</p>
+            </div>
+            <div class="skill-card">
+                <i class="fas fa-cloud"></i>
+                <h3>DevOps</h3>
+                <p>CI/CD, Cloud Infrastructure, Containerization</p>
+            </div>
+            <div class="skill-card">
+                <i class="fas fa-code"></i>
+                <h3>Programming</h3>
+                <p>Python, C++, JavaScript, SQL</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects">
+        <h2>Featured Projects</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <h3>Data Visualization Dashboard</h3>
+                <p>Interactive web app for real-time data analysis</p>
+                <a href="#" class="btn">View Project</a>
+            </div>
+            <div class="project-card">
+                <h3>DevOps Automation Tool</h3>
+                <p>Streamlined deployment and infrastructure management</p>
+                <a href="#" class="btn">View Project</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="resume" class="resume">
+        <h2>Professional Resume</h2>
+        <a href="resume.pdf" download class="btn download-btn">
+            <i class="fas fa-download"></i> Download Resume
+        </a>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>Get In Touch</h2>
+        <form class="contact-form">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea placeholder="Your Message" required></textarea>
+            <button type="submit" class="btn">Send Message</button>
+        </form>
+    </section>
+
+    <div class="chatbot-bubble">
+        <div class="chatbot-icon" id="chatbot-icon">
+            <i class="fas fa-comment-dots"></i>
+        </div>
+        <div class="chatbot-window">
+            <div class="chatbot-header">
+                <span>Ask about my Profile</span>
+                <button class="chatbot-close">&times;</button>
+            </div>
+            <div class="chatbot-messages" id="chatbot-messages"></div>
+            <div class="chatbot-input-container">
+                <input type="text" id="user-input" placeholder="Type your query...">
+                <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>© 2023 Your Name. All Rights Reserved.</p>
+    </footer>
+
+    <script src="chatbot.js"></script>
+</body>
+
+</html>
