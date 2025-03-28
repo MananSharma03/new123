@@ -35,26 +35,25 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav 
-      id="navbar" 
-      className={`navbar-fixed fixed w-full top-0 z-50 transition-all duration-300 ${
-        scrolled 
-          ? darkMode 
-            ? 'bg-gray-900' 
-            : 'bg-[#515151]'
-          : darkMode 
-            ? 'bg-gray-900/90 backdrop-blur-md' 
-            : 'bg-[#515151]/90 backdrop-blur-md'
-      } shadow-md`}
+    <nav
+      id="navbar"
+      className={`navbar-fixed fixed w-full top-0 z-50 transition-all duration-300 ${scrolled
+        ? darkMode
+          ? 'bg-gray-900'
+          : 'bg-[#515151]'
+        : darkMode
+          ? 'bg-gray-900/90 backdrop-blur-md'
+          : 'bg-[#515151]/90 backdrop-blur-md'
+        } shadow-md`}
     >
       <div className="container mx-auto px-4 py-3 flex flex-wrap items-center justify-between">
         <div className="flex items-center space-x-2 text-white">
           <Code className="h-6 w-6" />
           <div className="text-xl font-bold bg-gradient-to-r from-white to-[#2ecc71] bg-clip-text text-transparent">
-            Manan Sharma
+            <> Manan</>
           </div>
         </div>
-        
+
         <div className="hidden md:flex space-x-6 text-white">
           <a href="#home" className="hover:text-[#2ecc71] transition-colors duration-300 font-medium">Home</a>
           <a href="#skills" className="hover:text-[#2ecc71] transition-colors duration-300 font-medium">Skills</a>
@@ -62,16 +61,16 @@ const Navbar: React.FC = () => {
           <a href="#resume" className="hover:text-[#2ecc71] transition-colors duration-300 font-medium">Resume</a>
           <a href="#contact" className="hover:text-[#2ecc71] transition-colors duration-300 font-medium">Contact</a>
         </div>
-        
+
         <div className="flex items-center">
-          <button 
+          <button
             onClick={toggleTheme}
             className="p-2 rounded-full hover:bg-gray-700/50 transition-colors duration-300 text-white"
             aria-label="Toggle theme"
           >
             {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </button>
-          
+
           {/* Mobile menu button - can be expanded later */}
           <button className="md:hidden ml-4 text-white">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

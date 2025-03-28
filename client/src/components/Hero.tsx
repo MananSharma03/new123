@@ -11,9 +11,9 @@ const Hero: React.FC = () => {
           <div className="w-full md:w-1/3 flex justify-center">
             <div className="relative w-64 h-64 rounded-full border-4 border-[#515151] overflow-hidden shadow-lg">
               {/* Using a placeholder profile image */}
-              <img 
-                src="https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" 
-                alt={name} 
+              <img
+                src="https://res.cloudinary.com/jerrick/image/upload/d_642250b563292b35f27461a7.png,f_jpg,q_auto,w_720/67344c856c473c001d68c10b.png"
+                alt={name}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -24,10 +24,10 @@ const Hero: React.FC = () => {
             <p className="text-lg leading-relaxed">{intro}</p>
             <div className="flex space-x-6 mt-6 justify-center md:justify-start">
               {social.map((item, index) => (
-                <a 
+                <a
                   key={index}
-                  href={item.url} 
-                  target="_blank" 
+                  href={item.url}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-[#515151] hover:text-[#2ecc71] text-2xl transition-all duration-300 hover:scale-110"
                 >

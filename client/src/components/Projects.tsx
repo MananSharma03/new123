@@ -10,10 +10,10 @@ const Projects: React.FC = () => {
         <h2 className="text-3xl font-bold text-center mb-12 relative after:content-[''] after:absolute after:w-20 after:h-1 after:bg-[#2ecc71] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:rounded pb-4">
           Featured Projects
         </h2>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project, index) => (
-            <div 
+            <div
               key={index}
               className="bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
             >
@@ -28,8 +28,8 @@ const Projects: React.FC = () => {
                     <span key={techIndex} className="px-2 py-1 bg-gray-200 text-sm rounded">{tech}</span>
                   ))}
                 </div>
-                <a 
-                  href={project.url} 
+                <a
+                  href={project.url}
                   className="inline-block px-4 py-2 bg-[#515151] text-white rounded hover:bg-[#2ecc71] transition-colors duration-300"
                 >
                   View Project
